@@ -26,6 +26,7 @@ pendulum = "^2.1.0"
 redmineapi-tools = {git = "https://github.com/dpausp/redmineapi-tools"}
 
 [tool.poetry.dev-dependencies]
+pytest = "^5.4.3"
 
 [tool.poetry.scripts]
 cryptpad-cli = 'event_tools.cli:cli'
