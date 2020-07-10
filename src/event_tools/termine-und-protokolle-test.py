@@ -8,7 +8,7 @@ import requests
 import pendulum
 import panflute as pf
 
-from redmineapitools.single_instance import RedmineAPIWrapper, get_custom_field_value_by_name
+from redmineapi_tools.single_instance import RedmineAPIWrapper, get_custom_field_value_by_name
 from pycryptpad_tools.padapi import PadAPI
 logging.getLogger("requests").setLevel(logging.DEBUG)
 

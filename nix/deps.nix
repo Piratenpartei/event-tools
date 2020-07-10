@@ -15,14 +15,17 @@ let
   '';
 
   overrides = poetry2nix.overrides.withDefaults (
-    self: super: {
-      # Project needs poetry to build. Is this an error in poetry2nix?
-      pycryptpad-tools = super.pycryptpad-tools.overridePythonAttrs (
-        old: rec {
-          buildInputs = [ poetry ];
-        }
-      );
-    });
+    self: super:
+    let
+      fixPoetryDep = pkgName: {
+        "${pkgName}" = super."${pkgName}".overridePythonAttrs (
+          old: rec {
+            buildInputs = [ poetry ];
+          }
+        );
+      };
+    in (fixPoetryDep "redmineapi-tools") // (fixPoetryDep "pycryptpad-tools")
+  );
 
 in rec {
   inherit pkgs;

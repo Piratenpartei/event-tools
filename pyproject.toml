@@ -23,6 +23,7 @@ python-redmine = "^2.3.0"
 panflute = "^1.12.5"
 jinja2 = "^2.11.2"
 pendulum = "^2.1.0"
+redmineapi-tools = {git = "https://github.com/dpausp/redmineapi-tools"}
 
 [tool.poetry.dev-dependencies]
 
