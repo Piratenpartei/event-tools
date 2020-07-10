@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "event-tools"
+version = "20.07.0"
+description = ""
+readme = "README.md"
+authors = ["Tobias dpausp <dpausp@posteo.de>"]
+keywords = ["events","cryptpad"]
+license = "AGPL-3.0-or-later"
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+eliot = "^1.12.0"
+click = "^7.1.2"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+cryptpad-cli = 'event_tools.cli:cli'
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
