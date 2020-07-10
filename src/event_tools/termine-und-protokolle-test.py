@@ -1,24 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[4]:
-
-
-#### Notebook settings #######################
-add_sys_path('~/pythonlib/pycryptpad-tools')
-add_sys_path("~/git/pycryptpad-tools/src")
-add_sys_path('~/pythonlib/pandoc')
-add_sys_path('~/pythonlib/jinja')
-add_sys_path('~/git/redmineapi-tools')
-add_venv("~/venvs/redmine")
-get_ipython().run_line_magic('autocall', '2')
-##############################################
-from IPython.display import Markdown
-
 import logging
 import datetime
 import re
-import json 
+import json
 
 import jinja2
 import requests
@@ -188,7 +171,7 @@ Wir freuen uns auf Zuhörer und Leute, die gerne mitarbeiten wollen.
 
 ## Alle Protokolle
 
-Die Protokolle werden nach der Sitzung im Bundesredmine archiviert. Die Protokolle für kommende Sitzungen sind dort auch zu finden: 
+Die Protokolle werden nach der Sitzung im Bundesredmine archiviert. Die Protokolle für kommende Sitzungen sind dort auch zu finden:
 
 [Liste aller Protokolle der AG Antragsprozess](https://redmine.piratenpartei.de/projects/ag-antragsprozess/issues?query_id=188)
 
@@ -206,10 +189,10 @@ headers = {
     'api-key': discourse_api_key,
     'api-username': discourse_username
 }
-req = dict(raw=discourse_post_content, 
+req = dict(raw=discourse_post_content,
            category=discourse_category_id,
-           title=subject, 
-           event=event, 
+           title=subject,
+           event=event,
            location=location,
            tags=tags)
 
@@ -260,7 +243,7 @@ def pf_toc(elem, doc):
         ff = elem.content[0]
         if isinstance(ff, pf.Str) and ff.text == "[TOC]":
             ff.text = "{{toc}}"
-            
+
 def issue_subject_from_todo_line(item_content):
     return "".join(pf.stringify(e) for e in item_content[3:]).strip()
 
@@ -274,7 +257,7 @@ def find_todo_items(elem, doc):
     to_create = doc.issues["create"]
     to_update = doc.issues["update"]
     to_close = doc.issues["close"]
-    
+
     if isinstance(elem, pf.ListItem):
         item_content = elem.content[0].content
         if isinstance(item_content[0], pf.Str) and len(item_content) > 2:
@@ -292,7 +275,7 @@ def find_todo_items(elem, doc):
                 issue_id = try_issue_id(issue)
                 if issue_id:
                     to_close[issue_id] = issue_subject_from_todo_line(item_content)
-            
+
 def convert_pad_content(pad_content):
     doc = pf.convert_text(pad_content, standalone=True)
     doc.walk(pf_remove_mumble_link)
@@ -382,4 +365,3 @@ for issue_id, subject in issues["close"].items():
 with pad_api as api:
     api.open_pad(pad_key)
     api.set_pad_content(f"Protokoll abgeschlossen, siehe: {redmine_url}/issues/{protocol_issue.id}")
-
