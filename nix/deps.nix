@@ -14,17 +14,34 @@ let
     ${poetry}/bin/poetry "$@"
   '';
 
+  overrides = poetry2nix.overrides.withDefaults (
+    self: super: {
+      # Project needs poetry to build. Is this an error in poetry2nix?
+      pycryptpad-tools = super.pycryptpad-tools.overridePythonAttrs (
+        old: rec {
+          buildInputs = [ poetry ];
+        }
+      );
+    });
+
 in rec {
   inherit pkgs;
   inherit (pkgs) lib glibcLocales;
-  inherit (poetry2nix) mkPoetryApplication;
+
+  inherit (poetry2nix.mkPoetryPackages {
+    projectDir = ../.;
+    inherit python overrides;
+  }) poetryPackages pyProject;
+
+  mkPoetryApplication = { ... }@args:
+    poetry2nix.mkPoetryApplication (args // {
+      inherit overrides;
+    });
 
   # Essential Python libs for the application
   libs =  with python.pkgs; [
-    click
-    selenium
     eliotPkgs.eliot
-  ];
+  ] ++ poetryPackages;
 
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with python.pkgs; [
